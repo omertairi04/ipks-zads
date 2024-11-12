@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+        p
+        {
+            position: static;
+        }
+    </style>
+
+    <script>
+        let data =  '[{"name":"color", "options":["red", "blue", "green", "#FF00FF"]},' +
+            '{"name":"width", "options":["100px", "200px", "600px"]},' +
+            '{"name":"background-color", "options":["yellow", "black", "pink"]}]'
+        let parsedData = JSON.parse(data)
+       window.onload = function ()
+       {
+           for (let i = 0; i < parsedData.length; i++) {
+               if (parsedData[i].name === "color")
+               {
+                   let option1 = document.createElement("option")
+                   let option2 = document.createElement("option")
+                   let option3 = document.createElement("option")
+                   let option4 = document.createElement("option")
+
+                   option1.innerHTML = parsedData[i].options[0]
+                   option2.innerHTML = parsedData[i].options[1]
+                   option3.innerHTML = parsedData[i].options[2]
+                   option4.innerHTML = parsedData[i].options[3]
+
+                   document.getElementById("color").append(option1)
+                   document.getElementById("color").append(option2)
+                   document.getElementById("color").append(option3)
+                   document.getElementById("color").append(option4)
+               }
+               else if(parsedData[i].name === "width")
+               {
+                   let option1 = document.createElement("option")
+                   let option2 = document.createElement("option")
+                   let option3 = document.createElement("option")
+
+
+                   option1.innerHTML = parsedData[i].options[0]
+                   option2.innerHTML = parsedData[i].options[1]
+                   option3.innerHTML = parsedData[i].options[2]
+
+                   document.getElementById("width").append(option1)
+                   document.getElementById("width").append(option2)
+                   document.getElementById("width").append(option3)
+               }
+               else if(parsedData[i].name === "background-color")
+               {
+                   let option1 = document.createElement("option")
+                   let option2 = document.createElement("option")
+                   let option3 = document.createElement("option")
+
+
+                   option1.innerHTML = parsedData[i].options[0]
+                   option2.innerHTML = parsedData[i].options[1]
+                   option3.innerHTML = parsedData[i].options[2]
+
+                   document.getElementById("bColor").append(option1)
+                   document.getElementById("bColor").append(option2)
+                   document.getElementById("bColor").append(option3)
+
+               }
+           }
+       }
+
+       function promena1()
+       {
+           let boja = document.getElementById("color").value
+           let p = document.getElementById("paragraf")
+           p.style.color = boja
+       }
+        function promena2()
+        {
+            let shirina = document.getElementById("width").value
+            let p = document.getElementById("paragraf")
+            p.style.width = shirina
+        }
+        function promena3()
+        {
+            let pozadinaBoja = document.getElementById("bColor").value
+            let p = document.getElementById("paragraf")
+            p.style.backgroundColor = pozadinaBoja
+        }
+
+    </script>
+</head>
+<body>
+<p id="paragraf">LOREM IPSUM DOLOR SIT AMET</p>
+color<select id="color" onchange="promena1()"></select>
+width<select id="width" onchange="promena2()"></select>
+background-color<select id="bColor" onchange="promena3()"></select>
+</body>
+</html>

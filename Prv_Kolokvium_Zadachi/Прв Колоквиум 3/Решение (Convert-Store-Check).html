@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+
+  <script>
+    function leftMove()
+    {
+      let num = document.getElementById("num")
+      if(num.value==="" || num.value.length !==10 || isNaN(num.value))
+      {
+        alert("Vnesi pravilen broj!")
+        return;
+      }
+
+      let broj = num.value.slice(2,10)
+      let cifra1 = num.value.charAt(0)
+      let cifra2 = num.value.charAt(1)
+      let shiftedNum = broj + cifra1 + cifra2
+      console.log(shiftedNum)
+
+      num.value = shiftedNum
+    }
+    function rightMove()
+    {
+      let num = document.getElementById("num")
+      if(num.value==="" || num.value.length !==10 || isNaN(num.value))
+      {
+        alert("Vnesi pravilen broj!")
+        return;
+      }
+
+      let broj = num.value.slice(0,8)
+      let cifra1 = num.value.charAt(8)
+      let cifra2 = num.value.charAt(9)
+      let shiftedNum = cifra1 + cifra2 + broj
+      console.log(shiftedNum)
+
+      num.value = shiftedNum
+    }
+
+
+    function convertNum()
+    {
+      let num = document.getElementById("num")
+      if(num.value==="" || num.value.length !==10 || isNaN(num.value))
+      {
+        alert("Vnesi pravilen broj!")
+        return;
+      }
+      build = ""
+      for(let i=0;i<num.value.length;i++)
+      {
+         let broj = num.value.charAt(i)
+         let odzemanje = parseInt(broj) - 2
+         if(odzemanje<0)
+         {
+           let novo = (10 - parseInt(broj)) - 2
+           build+=novo
+         }
+         else
+         {
+           build+=odzemanje
+         }
+      }
+      console.log(build)
+      num.value = build
+    }
+
+    function checkNum()
+    {
+      let num = document.getElementById("num")
+      if(num.value==="" || num.value.length !==10 || isNaN(num.value))
+      {
+        alert("Vnesi pravilen broj!")
+        return;
+      }
+
+      let perfect = document.getElementById("sovrshen")
+      let counter = 0
+      perfect.innerHTML = ""
+      for(let i=0;i<num.value.length;i++)
+      {
+        if(num.value.charAt(i) % 3)
+        {
+          counter++
+        }
+        if(counter===3)
+        {
+          perfect.innerHTML = "Совршен" + "-" + num.value
+          break;
+        }
+      }
+    }
+
+    function storeNum()
+    {
+      let num = document.getElementById("num")
+      if(num.value==="" || num.value.length !==10 || isNaN(num.value))
+      {
+        alert("Vnesi pravilen broj!")
+        return;
+      }
+
+      let lista = document.getElementById("stored")
+      let item = document.createElement("li")
+      item.innerHTML = num.value
+      lista.append(item)
+      num.value = ""
+    }
+
+  </script>
+
+</head>
+<body>
+
+<input type="text" id="num">
+<button onclick="leftMove()"><</button>
+<button onclick="rightMove()">></button>
+<button onclick="convertNum()">Convert</button>
+<button onclick="storeNum()">Store</button>
+<button onclick="checkNum()">Check</button>
+<div id="sovrshen"></div>
+
+<ul id="stored">
+
+</ul>
+</body>
+</html>

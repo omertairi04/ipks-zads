@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script>
+        function postavi()
+        {
+            let el = document.getElementById("element")
+            if(el.value==="")
+            {
+                alert("Popolni vo poleto!")
+                return;
+            }
+            let podeli = el.value.split(",")
+            if(podeli.length != 4)
+            {
+                alert("Wrong number of inputs!")
+                return;
+            }
+            let color = podeli[0]
+            let width = podeli[1]
+            let height = podeli[2]
+            let content = podeli[3]
+
+            let finalContent = modifyText(content);
+            
+            let newDiv = document.createElement("div")
+            newDiv.style.backgroundColor = color
+            newDiv.style.width = width + "px"
+            newDiv.style.height = height + "px"
+            newDiv.innerHTML = finalContent;
+            newDiv.style.textAlign = "center";
+            newDiv.setAttribute("onclick","brishi(this)")
+
+            let Body = document.getElementById("body")
+            Body.append(newDiv)
+        }
+
+        function modifyText(content)
+        {
+            let i = 0
+            let newText = ""
+            for(i=0;i<content.length;i++)
+            {
+                if(i%2===0)
+                {
+                    newText+= content[i].toLowerCase()
+                }
+                else
+                {
+                    newText+= content[i].toUpperCase()
+                }
+            }
+            console.log(newText)
+            return newText;
+        }
+        function brishi(element)
+        {
+            element.remove()
+        }
+    </script>
+</head>
+<body id="body">
+
+<input type="text" id="element"><button onclick="postavi()">Постави</button>
+
+</body>
+</html>

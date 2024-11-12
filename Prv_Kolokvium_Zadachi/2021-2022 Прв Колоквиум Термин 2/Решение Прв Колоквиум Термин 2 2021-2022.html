@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+        .a
+        {
+            padding: 10px;
+        }
+        label
+        {
+            width: 200px;
+            display: inline-block;
+        }
+        .nova
+        {
+            display: inline-block;
+            padding: 28px;
+            margin: 10px;
+            border: 1px solid black;
+            height: 200px;
+            text-align: center;
+        }
+    </style>
+    <script>
+        var global = 0
+        function generiraj()
+        {
+            var ime = document.getElementById("name")
+            var prezime = document.getElementById("sname")
+            var regTabla = document.getElementById("reg")
+            var godini = document.getElementById("god")
+            var yes = document.getElementById("da")
+            var no = document.getElementById("ne")
+
+            if(ime.value=="" || prezime.value=="" || regTabla.value=="" || godini.value=="" || (yes.checked==false && no.checked==false))
+            {
+                alert("Внесете ги сите податоци!")
+                return;
+            }
+            if(isNaN(godini.value))
+            {
+                alert("Внеси број за годините!")
+                return;
+            }
+            if(checkFormat(regTabla.value))
+            {
+                alert("Невалидна регистарска таблица!")
+                return;
+            }
+            var osnovna = 3000
+            if(checkGold(regTabla.value))
+            {
+                osnovna+= 1000
+            }
+            var soobrakaj
+            if(yes.checked==true)
+            {
+                osnovna+=500
+                soobrakaj = "Има"
+            }
+            else if(no.checked==true)
+            {
+                soobrakaj = "Нема"
+            }
+
+
+            var glavnaLista = document.getElementById("smetki")
+            var novDiv = document.createElement("div")
+
+            novDiv.innerHTML = "<p>"+ime.value+"</p>" +
+                "<p>"+regTabla.value+"</p>" +
+                "<p>Сообраќајки: "+soobrakaj+"</p>" +
+                "<p>Старост на возило: "+godini.value+"</p>" +
+                "<p>За плаќање: "+osnovna+"</p>" +
+                "<button onclick='plati(this)'>Плати</button><button onclick='izbrishi(this)'>Избриши</button>"
+                novDiv.setAttribute("class","nova")
+                if(godini.value>30)
+                {
+                    novDiv.style.backgroundColor = "red"
+                }
+                else
+                {
+                    novDiv.style.backgroundColor = "lightgreen"
+                }
+                glavnaLista.append(novDiv)
+                global++
+                var element = document.getElementById("vkupno")
+                element.innerHTML = global
+        }
+
+        function checkFormat(tablica)
+        {
+            var regex = /^[A-Z][A-Z]-[0-9][0-9][0-9][0-9]-[A-Z][A-Z]$/
+            if(tablica.length!=10)
+            {
+                return true
+            }
+            if(regex.test(tablica))
+            {
+                return false
+            }
+            else
+            {
+                return true
+            }
+        }
+        function checkGold(tablica)
+        {
+            var podelba = tablica.split("-")
+            var brojka = podelba[1]
+            if(brojka[0]===brojka[1] && brojka[0]===brojka[2] && brojka[0]===brojka[3])
+            {
+                return true
+            }
+            else
+            {
+                return false
+            }
+
+        }
+        function plati(btn)
+        {
+            btn.disabled = true
+            btn.nextElementSibling.disabled = true
+        }
+        function izbrishi(btn)
+        {
+            var parent = btn.parentNode
+            parent.remove()
+            global--
+            var element = document.getElementById("vkupno")
+            element.innerHTML = global
+        }
+
+    </script>
+</head>
+<body>
+
+<div>
+    <h1>Осигурување на возила</h1>
+    <div class="a">
+        <label>Име</label>
+        <input type="text" id="name">
+    </div>
+    <div class="a">
+        <label>Презиме</label>
+        <input type="text" id="sname">
+    </div>
+    <div class="a">
+        <label>Регистарска таблица</label>
+        <input type="text" id="reg">
+    </div>
+    <div class="a">
+        <label>Години на старост</label>
+        <input type="text" id="god">
+    </div>
+    <div class="a">
+        <label>Соообраќајна незгода</label>
+        <label style="display: inline">Да</label>
+        <input type="radio" name="same" id="da">
+        <label style="display: inline" >Не</label>
+        <input type="radio" name="same" id="ne">
+    </div>
+    <div class="a">
+        <button onclick="generiraj()">Генерирај сметка</button>
+    </div>
+        <h2>Сметки</h2>
+        <p>Вкупно сметки за плаќање: <span id="vkupno">0</span></p>
+    <div>
+        <ul id="smetki">
+
+        </ul>
+    </div>
+
+</div>
+
+</body>
+</html>

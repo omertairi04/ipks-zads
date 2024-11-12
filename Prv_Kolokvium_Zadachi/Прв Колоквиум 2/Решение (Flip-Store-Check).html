@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+  <style>
+    input {
+      width: 150px;
+    }
+
+  </style>
+
+  <script>
+    function shiftRight()
+    {
+      var number = document.getElementById("numbers")
+      var numberV = number.value
+      if(numberV.length !== 10)
+      {
+        alert("Внеси десетцифрен број!")
+        return;
+      }
+       var lastDigit = numberV.charAt(9)
+       numberV = numberV.slice(0,9)
+       numberV = lastDigit + numberV
+      console.log(numberV)
+      number.value = numberV
+    }
+    function shiftLeft()
+    {
+      var number = document.getElementById("numbers")
+      var numberV = number.value
+      if(numberV.length !== 10)
+      {
+        alert("Внеси десетцифрен број!")
+        return;
+      }
+      var firstDigit = numberV.charAt(0)
+      numberV = numberV.slice(1,10)
+      numberV = numberV + firstDigit
+      console.log(numberV)
+      number.value = numberV
+    }
+
+    function checkNum()
+    {
+      var number = document.getElementById("numbers")
+      var numberV = number.value
+      if(numberV.length !== 10)
+      {
+        alert("Внеси десетцифрен број!")
+        return;
+      }
+
+      let perfectNum = document.getElementById("perfect")
+      perfectNum.innerHTML = ""
+      let da = ""
+      for(let i=0;i<numberV.length;i++)
+      {
+         if(numberV.charAt(i) % 2 === 0 && numberV.charAt(i+1) % 2 === 0)
+         {
+            da = true
+         }
+         else
+         {
+           da = false
+           break;
+         }
+      }
+      if(da===true)
+      {
+        perfectNum.innerHTML = "Perfect Number - " +numberV
+      }
+      else
+      {
+        console.log("Ne e okej")
+      }
+    }
+
+    function flipNum()
+    {
+        var number = document.getElementById("numbers")
+        var numberV = number.value
+        if(numberV.length !== 10)
+        {
+          alert("Внеси десетцифрен број!")
+          return;
+        }
+        var N = 0
+        var digit = 0
+        var parsedNumber = parseInt(numberV)
+        for(i=0;i<10;i++)
+        {
+        digit = parsedNumber % 10;
+        N = Math.floor(N * 10 + digit)
+        parsedNumber = parsedNumber / 10;
+        }
+        console.log(N)
+        number.value = N
+
+    }
+    function storeNum()
+    {
+      var number = document.getElementById("numbers")
+      var valueNumber = number.value
+      if(valueNumber.length !== 10)
+      {
+        alert("Внеси десетцифрен број!")
+        return;
+      }
+      var elements = document.getElementById("nums")
+      var li = document.createElement("li")
+      li.innerHTML = valueNumber
+      number.value = ""
+      elements.append(li)
+    }
+    
+  </script>
+
+</head>
+<body>
+
+<div>
+  <input type="text" id="numbers">
+  <button onclick="shiftLeft()"><</button>
+  <button onclick="shiftRight()">></button>
+  <button onclick="flipNum()">FLIP</button>
+  <button onclick="storeNum()">STORE</button>
+  <button onclick="checkNum()">CHECK</button>
+  <div id="perfect">
+
+  </div>
+  <ul id="nums">
+
+  </ul>
+</div>
+
+</body>
+</html>

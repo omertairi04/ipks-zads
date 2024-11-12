@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+     div
+     {
+         padding: 10px;
+     }
+     label
+     {
+         display: inline-block;
+         width: 200px;
+     }
+     table,th,td
+     {
+         border: 1px solid green;
+         border-collapse: collapse;
+     }
+    </style>
+    <script>
+        var counter = 0
+        function dodaj()
+        {
+            var name = document.getElementById("ime")
+            var sname = document.getElementById("prezime")
+            var age = document.getElementById("god")
+            var code = document.getElementById("kod")
+            var sex = document.getElementById("pol")
+
+            if(name.value=="" || sname.value=="" || age.value=="" || code.value=="" || sex.value=="")
+            {
+                alert("All fields are required!")
+                return;
+            }
+
+            var newCode =  getTag(code.value)
+            var novaTabela = document.getElementById("here")
+            var redica = document.createElement("tr")
+
+            var vozrast = parseInt(age.value)
+            if(vozrast>=18)
+            {
+                    redica.innerHTML = "<td>"+name.value+"</td>" +
+                    "<td>"+sname.value+"</td>" +
+                    "<td>"+newCode+"</td>" +
+                    "<td><button onclick='potvrdi(this)'>Потврди</button><br><button onclick='otstrani(this)'>Избриши</button></td>"
+            }
+            else
+            {
+                redica.innerHTML = "<td>"+name.value+"</td>" +
+                    "<td>"+sname.value+"</td>" +
+                    "<td>"+newCode+"</td>" +
+                    "<td><button disabled='true' onclick='potvrdi(this)'>Потврди</button><br><button disabled='true' onclick='otstrani(this)'>Избриши</button></td>"
+            }
+            if(sex.value==="Машки")
+            {
+                redica.style.backgroundColor = "lightblue"
+            }
+            else if(sex.value==="Женски")
+            {
+                redica.style.backgroundColor = "red"
+            }
+            novaTabela.append(redica)
+             name.value = ""
+             sname.value = ""
+             age.value = ""
+             code.value = ""
+             sex.value = ""
+        }
+        function potvrdi(btn)
+        {
+            btn.disabled = true
+            btn.nextElementSibling.nextElementSibling.disabled = true
+            counter++
+            var element = document.getElementById("potvrdeni")
+            element.innerHTML = counter
+        }
+        function otstrani(btn)
+        {
+            var parent = btn.parentNode.parentNode
+            parent.remove()
+        }
+
+        function getTag(code)
+        {
+            var tag = ""
+            for(i=0;i<code.length;i++)
+            {
+                if(isNaN(code[i]))
+                {
+                    if(code[i].toLowerCase() === code[i])
+                    {
+                        tag += code[i].toUpperCase()
+                    }
+                    else if(code[i].toUpperCase()===code[i])
+                    {
+                        tag += code[i].toLowerCase()
+                    }
+                }
+                else
+                {
+                    if(code[i]<5)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        tag += code[i]
+                    }
+                }
+            }
+            return tag;
+        }
+    </script>
+</head>
+<body>
+<div>
+    <h1>Учесници на маратон</h1>
+    <div>
+        <label>Име</label>
+        <input type="text" id="ime">
+    </div>
+    <div>
+        <label>Презиме</label>
+        <input type="text" id="prezime">
+    </div>
+    <div>
+        <label>Години</label>
+        <input type="text" id="god">
+    </div>
+    <div>
+        <label>Код</label>
+        <input type="text" id="kod">
+    </div>
+    <div>
+        <label>Пол</label>
+        <select id="pol">
+            <option></option>
+            <option>Машки</option>
+            <option>Женски</option>
+        </select>
+    </div>
+    <div>
+        <button onclick="dodaj()">Додади</button>
+    </div>
+
+    <table>
+        <thead>
+        <th>Име</th>
+        <th>Презиме</th>
+        <th>Таг</th>
+        <th>Опции</th>
+        </thead>
+        <tbody id="here">
+
+        </tbody>
+    </table>
+    <h2>Вкупно потврдени учесници: <span id="potvrdeni">0</span></h2>
+    <ul id="confirmed">
+
+    </ul>
+</div>
+</body>
+</html>

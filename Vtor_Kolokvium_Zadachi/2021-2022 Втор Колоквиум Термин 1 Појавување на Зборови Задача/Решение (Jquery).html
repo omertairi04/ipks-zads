@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vtor Kolokvium - Internet Programiranje</title>
+    <script
+      src="https://code.jquery.com/jquery-3.6.0.min.js"
+      integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+      crossorigin="anonymous"
+    ></script>
+    <style>
+      .inputContainer {
+        display: flex;
+        flex-direction: column;
+        max-width: 20%;
+      }
+
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="inputContainer">
+      <textarea name="words" id="words" cols="30" rows="10"></textarea>
+      <input type="button" id="prikazi" value="Prikazi" />
+    </div>
+    <div class="animationContainer"></div>
+    <script>
+      let $textArea = $('#words');
+      let $button = $('#prikazi');
+      let $animationContainer = $('.animationContainer');
+      const winHeight = window.screen.height;
+      const winWidth = window.screen.width;
+      let delay = 0;
+
+      console.log(winWidth);
+      function hideInputs() {
+        $button.hide();
+        $textArea.hide();
+      }
+
+      function numberOfOccurences(word, array) {
+        let count = 0;
+        array.forEach((element) => {
+          if (element === word) count++;
+        });
+
+        return count;
+      }
+
+      // function placeWordElementRandomly(wordElement) {
+      //   wordElement.
+      // }
+
+      function getArrayFromWordString(wordString) {
+        let wordsArray = wordString.split('\n');
+        let splitArr = [];
+        wordsArray.forEach((line) => {
+          // splitarr.push(line.split(' '));
+          line.split(' ').forEach((item) => splitArr.push(item));
+        });
+
+        return splitArr;
+      }
+
+      function getRandomScreenPosition() {
+        return {
+          x: Math.random() * (winWidth - 100) + 100,
+          y: Math.random() * (winHeight - 100) + 100,
+        };
+      }
+
+      function getRandomIntInclusive(min, max) {
+        min = Math.ceil(min);
+        max = Math.floor(max);
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+      }
+
+      function getRandomColour() {
+        return {
+          r: getRandomIntInclusive(0, 255),
+          g: getRandomIntInclusive(0, 255),
+          b: getRandomIntInclusive(0, 255),
+        };
+      }
+
+      $button.click(function () {
+        let value = $textArea.val();
+        let words = getArrayFromWordString(value);
+
+        words.forEach((word, index) => {
+          let wordElement = document.createElement('p');
+          let wordCount = numberOfOccurences(word, words);
+          const wordPos = getRandomScreenPosition();
+          const colour = getRandomColour();
+          wordElement.setAttribute('word', word);
+          wordElement.setAttribute('occurences', wordCount);
+          wordElement.textContent = word;
+          wordElement.style.fontSize = 1 * wordCount + 'rem';
+          wordElement.style.position = 'absolute';
+          wordElement.style.color = `rgb(${colour.r}, ${colour.g}, ${colour.b}, 1)`;
+          wordElement.style.left = wordPos.x + 'px';
+          wordElement.style.top = wordPos.y + 'px';
+          wordElement.classList.toggle('hidden');
+          $animationContainer.append(wordElement);
+
+          setTimeout(() => {
+            wordElement.classList.toggle('hidden');
+          }, delay);
+
+          delay += 1000;
+        });
+
+        // $animationContainer.each(function () {
+        //   let $this = $(this);
+
+        // })
+
+        // let numberOfOccurences = numberOfOccurences()
+        console.log(words);
+        hideInputs();
+      });
+    </script>
+  </body>
+</html>

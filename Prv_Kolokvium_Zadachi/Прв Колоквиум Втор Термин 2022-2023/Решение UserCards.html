@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+  <style>
+    #userCards
+    {
+      text-align: center;
+    }
+    option
+    {
+      text-align: center;
+    }
+    div
+    {
+      padding: 10px;
+    }
+    label
+    {
+      display: inline-block;
+      width: 180px;
+    }
+    input
+    {
+      width: 250px;
+    }
+    select
+    {
+      width: 250px;
+    }
+    .elements
+    {
+      text-align: center;
+      margin: 10px;
+      display: inline-block;
+    }
+
+  </style>
+
+  <script>
+    let globalSum = 0
+    function AddCard()
+    {
+      let userName = document.getElementById("user")
+      let ID = document.getElementById("userID")
+      let width = document.getElementById("wid")
+      let height = document.getElementById("hei")
+      let color = document.getElementById("color")
+
+      if(userName.value==="" || ID.value==="" || width.value==="" || height.value==="" || color.value==="")
+      {
+        alert("All fields are required!")
+        return;
+      }
+
+      if(!checkId(ID.value))
+      {
+        alert("Bad Format")
+        return;
+      }
+
+      let parsedHeight = parseInt(height.value)
+      let parsedWidth = parseInt(width.value)
+      let totalSum = Math.floor((parsedHeight * parsedWidth) * 0.5)
+
+      if(color.value==="red")
+      {
+        totalSum = totalSum + 1000
+      }
+
+      let arrayElements = document.getElementsByClassName("elements")
+      let i = 0
+      //let flag = false
+      for(i=0;i<arrayElements.length;i++)
+      {
+        if(arrayElements[i].children[0].children[0].innerHTML===ID.value)
+        {
+          arrayElements[i].children[1].children[0].innerHTML = width.value
+          arrayElements[i].children[2].children[0].innerHTML = height.value
+          arrayElements[i].children[3].children[0].innerHTML = color.value
+          arrayElements[i].children[4].children[0].innerHTML =  totalSum.toString()
+          arrayElements[i].style.background = color.value
+          arrayElements[i].style.width = width.value + "px"
+          arrayElements[i].style.height = height.value + "px"
+          //flag = true
+          return;
+        }
+      }
+
+      let elementAdder = document.getElementById("AddHere")
+      let newElement = document.createElement("div")
+
+      if((parsedHeight>0 && parsedHeight<=500) && (parsedWidth>0 && parsedWidth<=500))
+      {
+
+            newElement.innerHTML = "<p style='text-align: center'>ID: <span>" + ID.value + "</span></p>" +
+                    "<p style='text-align: center'>Width: <span>" + width.value + "</span></p>" +
+                    "<p style='text-align: center'>Height: <span>" + height.value + "</span></p>" +
+                    "<p style='text-align: center'>Color: <span>" + color.value + "</span></p>" +
+                    "<p style='text-align: center'>Vkupno: <span>" + totalSum + "</span></p>" +
+                    "<button onclick='sellThis(this)'>Sell</button>"
+            newElement.setAttribute("class", "elements")
+
+            if (color.value === "red")
+            {
+              newElement.style.background = "red"
+            }
+            else if (color.value === "green")
+            {
+              newElement.style.background = "green"
+            }
+            else if (color.value === "blue")
+            {
+              newElement.style.background = "blue"
+            }
+            else if (color.value === "yellow")
+            {
+              newElement.style.background = "yellow"
+            }
+            newElement.style.width = width.value + "px"
+            newElement.style.height = height.value + "px"
+            elementAdder.append(newElement)
+          }
+      }
+
+    function checkId(id)
+    {
+      let regex = /[!@#$%^&*()_+-=']/
+      let i = 0
+      for(i=0;i<id.length;i++)
+      {
+        if(!isNaN(id[i]) || (id[i]===id[i].toUpperCase() && !regex.test(id[i])))
+        {
+          return false;
+        }
+      }
+      console.log(id)
+      return true
+    }
+
+    function sellThis(btn)
+    {
+      let elementParent = btn.parentNode
+      let fullSum = document.getElementById("total")
+      let soldSum =  parseInt(elementParent.children[4].children[0].innerHTML)
+      globalSum += soldSum
+      fullSum.innerHTML = globalSum
+      elementParent.remove()
+    }
+  </script>
+
+</head>
+<body>
+
+<div>
+  <h1 id="userCards">User Cards</h1>
+
+  <div>
+    <label>Username</label>
+    <input type="text" id="user">
+  </div>
+  <div>
+    <label>ID</label>
+    <input type="text" id="userID">
+  </div>
+  <div>
+    <label>Width:</label>
+    <input type="text" id="wid">px
+  </div>
+  <div>
+    <label>Height:</label>
+    <input type="text" id="hei">px
+  </div>
+  <div>
+    <label>Color</label>
+    <select id="color">
+      <option></option>
+      <option>red</option>
+      <option>green</option>
+      <option>blue</option>
+      <option>yellow</option>
+    </select>
+  </div>
+  <div>
+    <button onclick="AddCard()">Add</button>
+  </div>
+</div>
+<span>Вкупно продадени: <strong id="total">0</strong></span>
+
+<section id="AddHere">
+
+</section>
+</body>
+</html>

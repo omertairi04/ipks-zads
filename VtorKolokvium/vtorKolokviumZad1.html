@@ -1,0 +1,86 @@
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+     <meta charset="UTF-8">
+     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>Kol - 2 | termin 1 </title>
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+     <style>
+         textarea {
+             width: 250px;
+             height: 200px;
+         }
+     </style>
+     <script>
+         function prikazi() {
+             var t = 0;
+             // get Elements and hide display
+             var getText = document.getElementById("txt");
+             var getDugme = document.getElementById("dugme");
+             getText.style.display = "none";
+             getDugme.style.display = "none";
+             // convert area into array;
+             var word = "" , count = 0 , nova = [] , fullWord = "";
+             for (i=0;i<getText.value.length;i++) {
+                 nova[i] = getText.value[i];
+             }
+             // na krajot na array dodadi "\n"
+             nova[getText.value.length] = "\n";
+             // even i dont know what tf i did here.
+              for (var i=0;i<nova.length;i++){
+                  size = 0;
+                  var levo = Math.floor(Math.random() * (1200 - 10) + 10);
+                  var gore = Math.floor(Math.random() * (500 - 10) + 10);
+                  var randomColor = Math.floor(Math.random()*16777215).toString(16);
+                  if ((nova[i] != " ") && (nova[i] != "\n")) {
+                      word += nova[i];
+                      if((nova[i+1] == " ") || (nova[i + 1] == "\n")){
+                            count++;
+                        }
+                  }
+                  if ((word != " ") && (nova[i+1] == " " || nova[i+1] == "\n")) {
+                      fullWord = word;
+                      word = " ";
+                  }
+                  if (nova[i] == "\n") {
+                      var size = 20*count;
+                      var dodadi = document.createElement("p");
+                      dodadi.innerHTML = fullWord;
+                      dodadi.style.position = 'fixed';
+                      dodadi.style.left = levo + 'px';
+                      dodadi.style.top = gore + 'px';
+                      dodadi.style.fontSize = size + 'px';
+                      dodadi.setAttribute("id","brojNaP" + t);
+                      dodadi.setAttribute("class","paragraf");
+                      dodadi.style.color = "#" + randomColor;
+                      document.body.appendChild(dodadi);
+                      $("#brojNaP" + t).hide();
+                      t++;
+                      word = ' ';
+                      fullWord = " ";
+                      count = 0;
+                  }
+              }
+              // show one by one 
+            var getP = document.getElementsByClassName("paragraf"); 
+            var z = 0;
+            function f() {
+                 $("#brojNaP" + z).show();
+                 z++;
+                 if (z < getP.length) {
+              setTimeout(f, 500);
+               }
+            }
+            f();
+       }
+     </script>
+ </head>
+ <body>
+     <textarea id="txt">
+     </textarea>
+     <div id="dugme">
+     <button onclick="prikazi()">Прикажи</button>
+    </div>
+ </body>
+ </html>

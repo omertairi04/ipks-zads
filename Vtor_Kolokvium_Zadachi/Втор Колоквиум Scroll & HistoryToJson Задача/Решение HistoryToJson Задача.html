@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+        #kopce
+        {
+            margin: 10px;
+        }
+        #kocka1, #kocka2
+        {
+            border: black solid 3px;
+            height: 120px;
+            width: 120px;
+            font-size: 120px;
+            text-align: center;
+        }
+    </style>
+    <script>
+        let timeToStop = 0
+        let dices = ""
+        let input = ""
+        let jsonArray = [];
+        let i = 0
+        function roll()
+        {
+            if(document.getElementById("num").value==="")
+            {
+                alert("Cant roll without input of number!")
+                return;
+            }
+            let reset = document.getElementById("num")
+            reset.style.backgroundColor = ""
+             kocka1 = document.getElementById("kocka1")
+             kocka2 = document.getElementById("kocka2")
+
+            interval = setInterval(go,1)
+        }
+        function go()
+        {
+            timeToStop+=10
+            kocka1.value = Math.floor(Math.random() * 6) + 1
+            kocka2.value = Math.floor(Math.random() * 6) + 1
+
+            if(timeToStop>1500)
+            {
+                clearInterval(interval)
+                timeToStop = 0
+                checkSum(kocka1.value,kocka2.value)
+
+                // Еден начин за креирање на JSON стрингот (рачно)
+                //input = "{" + "\"input\"" + ":" + document.getElementById("num").value + ","
+                //dices = "\"dices\"" + ":" + "[" + kocka1.value+","+kocka2.value + "]" + "}"
+                //jsonArray[i++] = input + dices
+
+                // Со готова функција креирање на JSON стринг (JSON.stringify)
+                jsonArray[i++] = JSON.stringify({input:parseInt(document.getElementById("num").value),
+                                                dices:[parseInt(kocka1.value),parseInt(kocka2.value)]})
+                console.log(jsonArray)
+            }
+
+        }
+        function checkSum(box1,box2)
+        {
+            let sum = 0
+            let parsedBox1 = parseInt(box1)
+            let parsedBox2 = parseInt(box2)
+            let number = document.getElementById("num")
+
+            sum = parsedBox1 + parsedBox2
+            if(parseInt(number.value)===sum)
+            {
+                number.style.backgroundColor = "green"
+            }
+            else if(parseInt(number.value)!==sum)
+            {
+                number.style.backgroundColor = "red"
+            }
+
+        }
+        function historyToJson()
+        {
+            let array = ""
+            for(j=0;j<jsonArray.length-1;j++)
+            {
+                array += jsonArray[j] + ","
+            }
+            array = "[" + array + jsonArray[jsonArray.length-1] + "]"
+            alert(array)
+        }
+    </script>
+</head>
+<body>
+<input type="number" id="num"> <button onclick="roll()">Roll</button>
+<div>
+    <br>
+    <input type="text" id="kocka1">
+    <input type="text" id="kocka2">
+    <br>
+</div>
+
+<div>
+    <button id="kopce" onclick="historyToJson()">History to json</button>
+</div>
+</body>
+</html>

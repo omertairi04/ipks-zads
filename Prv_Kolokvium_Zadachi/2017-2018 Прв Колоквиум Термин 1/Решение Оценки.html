@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+        div
+        {
+            padding: 10px;
+        }
+        label
+        {
+            display: inline-block;
+            width: 96px;
+        }
+        #dvizam
+        {
+            position: absolute;
+            left: 432px;
+            top: 39px;
+        }
+        .stil
+        {
+           margin: 3px;
+        }
+        table,th,td
+        {
+            border: 1px solid black;
+            border-collapse: collapse;
+            text-align: center;
+        }
+
+    </style>
+
+    <script>
+        var counter = 0
+        var sumaOceni = 0
+
+        function importStudent()
+        {
+            var ime = document.getElementById("name")
+            var indeks = document.getElementById("index")
+            var telefon = document.getElementById("phone")
+            var ocenka5 = document.getElementById("five")
+            var ocenka6 = document.getElementById("six")
+            var ocenka7 = document.getElementById("seven")
+            var ocenka8 = document.getElementById("eight")
+            var ocenka9 = document.getElementById("nine")
+            var ocenka10 = document.getElementById("ten")
+            var sesija = document.getElementById("month")
+
+            if(ime.value=="" || indeks.value=="" || telefon.value=="" || (ocenka5.checked==false && ocenka6.checked==false && ocenka7.checked==false && ocenka8.checked==false && ocenka9.checked==false && ocenka10.checked==false) || sesija.value=="")
+            {
+                alert("All fields are required!")
+                return;
+            }
+            var novNum = formatPhone(telefon.value)
+            if(novNum===false)
+            {
+                alert("Неправилен формат!")
+                return;
+            }
+
+            var tabela = document.getElementById("here")
+            var redica = document.createElement("tr")
+            var grade = ""
+            if(ocenka5.checked===true)
+            {
+                grade = "5"
+            }
+            else if(ocenka6.checked===true)
+            {
+                grade = "6"
+            }
+            else if(ocenka7.checked===true)
+            {
+                grade = "7"
+            }
+            else if(ocenka8.checked===true)
+            {
+                grade = "8"
+            }
+            else if(ocenka9.checked===true)
+            {
+                grade = "9"
+            }
+            else if(ocenka10.checked===true)
+            {
+                grade = "10"
+            }
+
+            redica.innerHTML = "<td>"+ime.value+"</td>" +
+                "<td>"+indeks.value+"</td>" +
+                "<td>"+novNum+"</td>" +
+                "<td>"+grade+"</td>" +
+                "<td>"+sesija.value+"</td>" +
+                "<td><button class='stil' onclick='potvrda(this)'>Confirm</button><button class='stil' onclick='svrti(this)'>Revert</button></td>"
+            tabela.append(redica)
+            var r1 = redica.children[3].innerHTML
+            var parsed = parseInt(r1)
+
+            counter++
+            sumaOceni += parsed
+            var final = sumaOceni/counter
+            var finalOne = final.toFixed(1)
+            console.log(final)
+            var element1 = document.getElementById("average")
+            element1.innerHTML = finalOne
+        }
+
+        function potvrda(btn)
+        {
+            var parent = btn.parentNode.parentNode
+            parent.style.backgroundColor = "lightgreen"
+            btn.disabled = true
+            btn.nextElementSibling.disabled = true
+        }
+        function svrti(btn)
+        {
+            var parent = btn.parentNode.parentNode
+            var lista = document.getElementById("history")
+            var listItem = document.createElement("li")
+
+            var indeks = parent.children[1].innerHTML
+            var ocena = parent.children[3].innerHTML
+            listItem.innerHTML = indeks + " " + "-" + " " + "grade" + " " + ocena
+
+            lista.append(listItem)
+            var r1 = parent.children[3].innerHTML
+            var parsed = parseInt(r1)
+
+            counter--
+            sumaOceni -= parsed
+            var final = sumaOceni/counter
+            var finalOne = final.toFixed(1)
+            var element1 = document.getElementById("average")
+            element1.innerHTML = finalOne
+            parent.remove()
+        }
+
+
+        function formatPhone(phone)
+        {
+            var counter = 0
+            var prvdel = ""
+            var vtordel = ""
+            var tretdel = ""
+            var build = ""
+            var regex = /[a-zA-Z]+/
+            if(regex.test(phone))
+            {
+                return false;
+            }
+            if(phone.length != 9)
+            {
+                return false;
+            }
+            else
+            {
+                for(i=0;i<phone.length;i++)
+                {
+                    if(!isNaN(phone[i]))
+                    {
+                        counter++
+                        build += phone[i]
+                        if(counter===3)
+                        {
+                            prvdel = build + "/"
+                            build = ""
+                        }
+                        if(counter===6)
+                        {
+                            vtordel = build + "-"
+                            build = ""
+                        }
+                        if(counter===9)
+                        {
+                            tretdel = build
+                            build = ""
+                        }
+                    }
+                }
+                var final = prvdel+vtordel+tretdel
+            }
+            if(final==="")
+            {
+                return false
+            }
+            return final
+        }
+    </script>
+</head>
+<body>
+
+<div>
+    <h1>Details</h1>
+    <div>
+        <label>Name</label>
+        <input type="text" id="name">
+    </div>
+    <div>
+        <label>Index</label>
+        <input type="text" id="index">
+    </div>
+    <div>
+        <label>Phone</label>
+        <input type="text" id="phone">
+    </div>
+    <div>
+        <label>Grade</label>
+        <input type="radio" name="same" id="five">
+        <label style="display: inline">5</label>
+
+        <input type="radio" name="same" id="six">
+        <label style="display: inline">6</label>
+
+        <input type="radio" name="same" id="seven">
+        <label style="display: inline">7</label>
+
+        <input type="radio" name="same" id="eight">
+        <label style="display: inline">8</label>
+
+        <input type="radio" name="same" id="nine">
+        <label style="display: inline">9</label>
+
+        <input type="radio" name="same" id="ten">
+        <label style="display: inline">10</label>
+    </div>
+    <div>
+        <label>Session</label>
+        <select id="month">
+            <option></option>
+            <option>January</option>
+            <option>June</option>
+            <option>September</option>
+        </select>
+    </div>
+    <div>
+        <button onclick="importStudent()">Import student</button>
+    </div>
+</div>
+<h2>Students (average grade:<span id="average">0</span>)</h2>
+<table>
+    <thead>
+    <th>Name</th>
+    <th>Index</th>
+    <th>Phone</th>
+    <th>Grade</th>
+    <th>Session</th>
+    <th>Actions</th>
+    </thead>
+    <tbody id="here">
+
+    </tbody>
+</table>
+
+<section id="dvizam">
+    <h2>Revert history</h2>
+    <ul id="history">
+
+    </ul>
+</section>
+</body>
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+        div
+        {
+            padding: 10px;
+        }
+        input, select
+        {
+            width: 300px;
+        }
+        label
+        {
+            display: inline-block;
+            width: 250px;
+        }
+        #online
+        {
+            text-align: center;
+        }
+        table,th,td
+        {
+            border: 1px solid black;
+            border-collapse: collapse;
+            text-align: center;
+        }
+    </style>
+
+    <script>
+
+        let globalCounter = 0
+        function addEntry()
+        {
+            let nameAndSurname = document.getElementById("ns")
+            let email = document.getElementById("email")
+            let age = document.getElementById("age")
+            let username = document.getElementById("user")
+            let password = document.getElementById("pass")
+            let role = document.getElementById("role")
+
+            if(nameAndSurname.value === "" || email.value === "" || age.value === "" || username.value === "" || password.value===""
+             || role.value === "")
+            {
+                alert("All fields required!")
+                return;
+            }
+
+            let array = document.getElementsByClassName("redici")
+            for(let i=0;i<array.length;i++)
+            {
+                if(array[i].children[1].innerHTML === username.value)
+                {
+                    alert("Username already exists")
+                    return;
+                }
+            }
+
+            if(!checkPassword(password.value))
+            {
+                alert("Password is not okay!")
+                return;
+            }
+
+            let tableBody = document.getElementById("here")
+            let redica = document.createElement("tr")
+            redica.innerHTML = "<td>"+nameAndSurname.value+"</td>" +
+                "<td>"+username.value+"</td>" +
+                "<td>"+email.value+"</td>" +
+                "<td>"+age.value+"</td>" +
+                "<td>"+role.value+"</td>" +
+                "<td><button onclick='hireMe(this)'>Hire</button></td>"
+
+            redica.setAttribute("class","redici")
+
+            if(role.value==="teacher")
+            {
+                if(age.value<18)
+                {
+                    alert("Cant have teacher younger than 18!")
+                    return;
+                }
+            }
+            if(role.value === "student")
+            {
+                redica.style.backgroundColor = "lightblue"
+            }
+            else if(role.value==="teacher")
+            {
+                redica.style.backgroundColor = "lightgreen"
+            }
+            tableBody.append(redica)
+        }
+
+        function hireMe(btn)
+        {
+            let row = btn.parentNode.parentNode
+            row.style.backgroundColor = "lightgray"
+            btn.remove()
+            let content = document.getElementById("available")
+            content.innerHTML = ++globalCounter
+        }
+
+        function checkPassword(password)
+        {
+            let counterUpperCase = 0
+            let counterNumbers = 0
+            for(let i=0;i<password.length;i++)
+            {
+                if(password.charAt(i)===password.charAt(i).toUpperCase() && isNaN(password.charAt(i)))
+                {
+                    counterUpperCase++
+                }
+                else if(!isNaN(password.charAt(i)))
+                {
+                    counterNumbers++
+                }
+            }
+            console.log(counterUpperCase)
+            console.log(counterNumbers)
+            if(password.length!==10)
+            {
+                return false;
+            }
+            else if(counterUpperCase<1)
+            {
+                return false
+            }
+            else if(counterNumbers<1)
+            {
+                return false
+            }
+            else
+            {
+                return true;
+            }
+        }
+    </script>
+</head>
+<body>
+<h1 id="online">Online classes</h1>
+<div>
+    <label>Name and surname</label>
+    <input type="text" id="ns">
+</div>
+<div>
+    <label>Email</label>
+    <input type="text" id="email">
+</div>
+<div>
+    <label>Age</label>
+    <input type="text" id="age">
+</div>
+<div>
+    <label>Username</label>
+    <input type="text" id="user">
+</div>
+<div>
+    <label>Password</label>
+    <input type="password" id="pass">
+</div>
+<div>
+    <label>Role</label>
+    <select id="role">
+        <option></option>
+        <option>teacher</option>
+        <option>student</option>
+    </select>
+</div>
+<div>
+    <button onclick="addEntry()">Add</button>
+</div>
+<p>Available teachers: <span id="available">0</span></p>
+<h1>Users</h1>
+<table>
+    <thead>
+    <th>Name</th>
+    <th>Username</th>
+    <th>Email</th>
+    <th>Age</th>
+    <th>Role</th>
+    <th>Actions</th>
+    </thead>
+    <tbody id="here">
+
+    </tbody>
+</table>
+</body>
+</html>

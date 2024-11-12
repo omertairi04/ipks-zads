@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script>
+        let num1 = getDigits(1,10)
+        let num2 = getDigits(10,100)
+        let num3 = getDigitsEqualSign(100,1000)
+
+        let finalString = num1 + num2 + num3
+        console.log("Final array of numbers:"+ " " + finalString)
+
+        window.onload = function ()
+        {
+            let paragraph = document.getElementById("here")
+            paragraph.innerHTML = finalString
+            interval = setInterval(clock,1000)
+        }
+
+        function check()
+        {
+            let izraz = document.getElementById("equation").value
+            console.log(eval(izraz))
+
+            let number = num3.split("=")[1]
+            let finalNum = parseInt(number)
+            let presmetka = eval(izraz)
+
+            if(finalNum===presmetka)
+            {
+                let input = document.getElementById("equation")
+                let btn = document.getElementById("kopce")
+                btn.disabled = true
+                input.disabled = true
+                clearInterval(interval)
+            }
+
+        }
+        function clock()
+        {
+            let timer = document.getElementById("vreme")
+            timer.innerHTML -= 1
+
+            if(timer.innerHTML === "0")
+            {
+                let input = document.getElementById("equation")
+                let btn = document.getElementById("kopce")
+                btn.disabled = true
+                input.disabled = true
+                clearInterval(interval)
+            }
+        }
+        function getDigits(min,max)
+        {
+            let string = ""
+            for(let i=0;i<2;i++)
+            {
+                string += Math.floor(Math.random() * (max-min) + min) + " "
+            }
+            console.log(string)
+            return string
+        }
+        function getDigitsEqualSign(min,max)
+        {
+            let string = ""
+            for(let i=0;i<2;i++)
+            {
+                string += Math.floor(Math.random() * (max-min) + min) + " "
+                if(i===0)
+                {
+                    string+= "=" + " "
+                }
+            }
+            console.log(string)
+            return string
+        }
+
+
+    </script>
+</head>
+<body>
+<p id="here" style="display: inline"></p>
+<div>
+    <input type="text" id="equation">
+    <button id="kopce" onclick="check()">Провери</button>
+</div>
+<p>Преостанато време: <span id="vreme">60</span> секунди.</p>
+</body>
+</html>

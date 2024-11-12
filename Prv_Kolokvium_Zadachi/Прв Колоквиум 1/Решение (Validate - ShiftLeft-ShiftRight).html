@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+
+    <script>
+
+        function leftShift()
+        {
+            let card = document.getElementById("card")
+            if(card.value==="")
+            {
+                alert("Not valid card");
+                return;
+            }
+            let regex = /^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}$/
+            console.log(card.value)
+            console.log(regex.test(card.value))
+            if(!regex.test(card.value))
+            {
+                alert("Format not good")
+                return;
+            }
+
+            let fourFirstDigits = card.value.slice(0,4)
+            let otherPart = card.value.slice(5,19)
+            let finalCard = otherPart + "-" + fourFirstDigits
+            console.log(finalCard)
+
+            card.value = finalCard
+        }
+        function rightShift()
+        {
+            let card = document.getElementById("card")
+            if(card.value==="")
+            {
+                alert("Not valid card");
+                return;
+            }
+            let regex = /^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}$/
+            console.log(card.value)
+            console.log(regex.test(card.value))
+            if(!regex.test(card.value))
+            {
+                alert("Format not good")
+                return;
+            }
+
+            let fourLastDigits = card.value.slice(15,19)
+            let otherPart = card.value.slice(0,14)
+            let finalCard = fourLastDigits + "-" + otherPart
+            console.log(finalCard)
+
+           card.value = finalCard
+        }
+        function validateNumber()
+        {
+            let card = document.getElementById("card")
+            if(card.value==="")
+            {
+                alert("Not valid card");
+                return;
+            }
+            let regex = /^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}$/
+            console.log(card.value)
+            console.log(regex.test(card.value))
+            if(!regex.test(card.value))
+            {
+                alert("Format not good")
+                return;
+            }
+
+            let uniqueNum = document.getElementById("unikatno")
+            uniqueNum.innerHTML = ""
+
+            let uniqueCounter = 0
+            let bool0 = true
+            let bool1 = true
+            let bool2 = true
+            let bool3 = true
+            let bool4 = true
+            let bool5 = true
+            let bool6 = true
+            let bool7 = true
+            let bool8 = true
+            let bool9 = true
+
+            for(let i=0;i<card.value.length;i++)
+            {
+                if(card.value.charAt(i) === "0" && bool0===true)
+                {
+                    bool0=false
+                    uniqueCounter++
+                }
+                else if(card.value.charAt(i) === "1" && bool1===true)
+                {
+                    bool1=false
+                    uniqueCounter++
+                }
+                else if(card.value.charAt(i) === "2" && bool2===true)
+                {
+                    bool2=false
+                    uniqueCounter++
+                }
+                else if(card.value.charAt(i) === "3" && bool3===true)
+                {
+                    bool3=false
+                    uniqueCounter++
+                }
+                else if(card.value.charAt(i) === "4" && bool4===true)
+                {
+                    bool4=false
+                    uniqueCounter++
+                }
+                else if(card.value.charAt(i) === "5" && bool5===true)
+                {
+                    bool5=false
+                    uniqueCounter++
+                }
+                else if(card.value.charAt(i) === "6" && bool6===true)
+                {
+                    bool6=false
+                    uniqueCounter++
+                }
+                else if(card.value.charAt(i) === "7" && bool7===true)
+                {
+                    bool7=false
+                    uniqueCounter++
+                }
+                else if(card.value.charAt(i) === "8" && bool8===true)
+                {
+                    bool8=false
+                    uniqueCounter++
+                }
+                else if(card.value.charAt(i) === "9" && bool9===true)
+                {
+                    bool9=false
+                    uniqueCounter++
+                }
+            }
+            if(uniqueCounter===5)
+            {
+                uniqueNum.innerHTML = "Valid"
+            }
+            else
+            {
+                uniqueNum.innerHTML = "Not Valid"
+            }
+        }
+
+    </script>
+
+</head>
+<body>
+
+<input type="text" id="card">
+<button onclick="leftShift()"><</button>
+<button onclick="rightShift()">></button>
+<button onclick="validateNumber()">Validate</button>
+<div id="unikatno"></div>
+
+</body>
+</html>

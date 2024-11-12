@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kol - 2 | termin - 2</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+        .box {
+            border: black solid 3px;
+            height: 120px;
+            width: 120px;
+            font-size: 120px;
+            text-align: center;
+            margin: 2px;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <script>
+       const data = '["bukva","jazik","vokal","misla","tablo"]';
+       var newData = JSON.parse(data);
+
+       var wordRandom = ran(newData);
+       console.log(wordRandom);
+       var count = 0;
+       newLineOfInputs();
+
+       function ran(array)
+       {
+           var ranIndex = Math.floor((Math.random() * array.length));
+           let ranWord = array[ranIndex];
+           return ranWord;
+       }
+
+
+       function newLineOfInputs()
+       {
+           var DivNew = document.createElement("div");
+           document.body.appendChild(DivNew);
+           for (var i=0;i<5;i++)
+           {
+               var createInput = document.createElement("input");
+               createInput.setAttribute("class","box");
+               createInput.setAttribute("id","Br" + count++);
+               createInput.addEventListener("keydown" , function(e) {
+                   if (e.key == "Enter") {
+                       checkTheInputs();
+                   }
+               })
+               DivNew.appendChild(createInput);
+           }
+           count = 0;
+       }
+
+
+       function checkTheInputs()
+       {
+           var check = true;
+           var getInputs = document.getElementsByTagName("input");
+           for (var i=0;i<5;i++)
+           {
+                var inputById = document.getElementById("Br" + i);
+                if (inputById.value.length > 1 || inputById.value.length < 1)
+                {
+                    alert("Само еден буква по влез на инпут, пробај повторно");
+                    check = false;
+                    break;
+                }
+           }
+           if (check == true)
+           {
+               checkWord();
+           }
+       }
+
+       function checkWord()
+       {
+            var collectWord = "";
+            var getInputs = document.getElementsByTagName("input");
+              for (var i=0;i<5;i++){
+                var inputById = document.getElementById("Br" + i);
+                 collectWord += inputById.value;
+              }
+              for (var i=0;i<getInputs.length;i++){
+                getInputs[i].style.color = "gray";
+                getInputs[i].setAttribute("disabled", "true");
+              }
+              if (collectWord == wordRandom) {
+                  for (var i=0;i<5;i++) {
+                  var getById = document.getElementById("Br" + i);
+                      getById.style.backgroundColor = "green";
+                      document.body.style.backgroundColor = "green";
+                      $("#Br" + i).fadeOut(10);
+                      $("#Br" + i).fadeIn(1100);
+                  }
+              }
+              if (collectWord != wordRandom)
+              {
+                 for (i=0;i<5;i++)
+                 {
+                    var inputById = document.getElementById("Br" + i);
+                     for (k=0;k<5;k++)
+                     {
+                         if(i != k && collectWord[i] == wordRandom[k]) {
+                            inputById.style.backgroundColor = "yellow";
+                            $("#Br" + i).fadeOut(10);
+                            $("#Br" + i).fadeIn(1100);
+                        }
+                        if( i == k && collectWord[i] == wordRandom[k]) {
+                            inputById.style.backgroundColor = "green";
+                            $("#Br" + i).fadeOut(10);
+                            $("#Br" + i).fadeIn(1100);
+                        }
+                     }
+                 }
+                for (var i=0;i<getInputs.length;i++)
+                {
+                  getInputs[i].removeAttribute("id");
+                }
+                newLineOfInputs();
+                console.log(wordRandom);
+              }
+       }
+    </script>
+</body>
+</html>

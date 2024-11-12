@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+        body
+        {
+            width: 800px;
+            height: 800px;
+        }
+    </style>
+
+    <script>
+      let json = '[{"color":"red", "size":"50"},{"color":"blue", "size":"40"},{"color":"orange", "size":"30"},{"color":"green", "size":"20"},{"color":"yellow", "size":"50"}]'
+      let data = JSON.parse(json)
+      arrayDivs = []
+      window.onload = function ()
+      {
+        for(let i=0;i<data.length;i++)
+        {
+            div = document.createElement("div")
+            div.style.position = "absolute"
+            div.style.backgroundColor = data[i].color
+            div.style.width = data[i].size + "px"
+            div.style.height = data[i].size + "px"
+            div.style.left = (Math.floor(Math.random()*800)+1) + "px"
+            div.style.top = (Math.floor(Math.random()*640)+1) + "px"
+            div.style.opacity = 1
+            div.setAttribute("onclick","growDiv(this)")
+
+            arrayDivs[i] = div
+
+            document.body.append(div)
+        }
+          console.log(arrayDivs)
+      }
+      function growDiv(element)
+      {
+          interval = setInterval(animationGrow,10,element)
+      }
+
+      function animationGrow(div)
+      {
+          divWidth = Number(div.style.width.split("px")[0])
+          divHeight = Number(div.style.height.split("px")[0])
+
+          console.log(divWidth)
+          console.log(divHeight)
+
+          div.style.width = divWidth + 1 + "px"
+          div.style.height = divHeight + 1 + "px"
+
+          if(divWidth >= 125 && divHeight>=125)
+          {
+              clearInterval(interval)
+              create4Divs(div)
+              div.remove()
+              //interval2 = setInterval(animationDissapear,50,div)
+          }
+      }
+     /* function animationDissapear(div)
+      {
+          div.style.opacity -= 0.1
+
+          if(div.style.opacity<0)
+          {
+            clearInterval(interval2)
+          }
+          console.log(div.style.opacity)
+      }*/
+
+      function create4Divs(div)
+      {
+          for(let i=0;i<4;i++)
+          {
+              leftPos = ""
+              topPos = ""
+              divElement = document.createElement("div")
+              divElement.style.backgroundColor = div.style.backgroundColor
+              divElement.style.position = "absolute"
+              divElement.style.width = "20px"
+              divElement.style.height = "20px"
+              divElement.setAttribute("onclick","growDiv(this)")
+              if(i===0)
+              {
+                   leftPos = Number(div.style.left.split("px")[0]) - 45
+                   topPos = Number(div.style.top.split("px")[0]) + 45
+                   divElement.style.left = leftPos + "px"
+                   divElement.style.top = topPos + "px"
+              }
+              else if(i===1)
+              {
+                  leftPos = Number(div.style.left.split("px")[0]) - 45
+                  topPos = Number(div.style.top.split("px")[0]) + 70
+                  divElement.style.left = leftPos + "px"
+                  divElement.style.top = topPos + "px"
+              }
+              else if(i===2)
+              {
+                  leftPos = Number(div.style.left.split("px")[0]) - 20
+                  topPos = Number(div.style.top.split("px")[0]) + 45
+                  divElement.style.left = leftPos + "px"
+                  divElement.style.top = topPos + "px"
+              }
+              else if(i===3)
+              {
+                  leftPos = Number(div.style.left.split("px")[0]) - 20
+                  topPos = Number(div.style.top.split("px")[0]) + 70
+                  divElement.style.left = leftPos + "px"
+                  divElement.style.top = topPos + "px"
+              }
+              document.body.append(divElement)
+          }
+
+      }
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>

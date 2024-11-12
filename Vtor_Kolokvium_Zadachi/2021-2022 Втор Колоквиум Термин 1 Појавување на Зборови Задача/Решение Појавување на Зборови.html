@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <script>
+        function prikazhi()
+        {
+            let btn = document.getElementById("btn")
+            let content = document.getElementById("content")
+
+            let text = content.value.split("\n")
+            let newArr = []
+
+            for(let i = 0;i<text.length;i++)
+            {
+                newArr[i] = text[i].split(" ")
+            }
+             finalArr = newArr.toString().split(",")
+             newArray = filter(finalArr)
+             console.log(finalArr)
+
+            interval = setInterval(colors,500)
+
+            btn.remove()
+            content.remove()
+        }
+        let stop = 0
+        function colors()
+        {6
+                if(stop===newArray.length)
+                {
+                    clearInterval(interval)
+                    return;
+                }
+                let p = document.createElement("p")
+                let wordSize = 30 * size(finalArr,newArray[stop])
+                let wordName = newArray[stop]
+                let r = Math.floor(Math.random() * 256)
+                let g = Math.floor(Math.random() * 256)
+                let b = Math.floor(Math.random() * 256)
+                let leftPos = Math.floor(Math.random() * 901)
+                let topPos = Math.floor(Math.random()* 501)
+
+                p.innerHTML = wordName
+                console.log(p.innerHTML)
+                p.style.position = "absolute"
+                p.style.fontSize = wordSize + "px"
+                p.style.color = "rgb("+r+","+g+","+b+")"
+                p.style.left = leftPos + "px"
+                p.style.top = topPos + "px"
+
+                 let body = document.getElementById("telo")
+                if(p.innerHTML !== "")
+                {
+                    body.append(p)
+                    console.log(p)
+                }
+                stop++
+
+            }
+
+        function size(arr,word)
+        {
+            let i = 0;
+            let freq = 0
+            for(i=0;i<arr.length;i++)
+            {
+                if(word===arr[i])
+                {
+                    freq++
+                }
+            }
+            return freq;
+        }
+
+        function filter(arr)
+        {
+            newArray = []
+            return  newArray = arr.filter((item,index) => arr.indexOf(item) === index)
+        }
+    </script>
+</head>
+<body id="telo">
+
+<textarea id="content"></textarea>
+<div>
+    <button id="btn" onclick="prikazhi()">Прикажи</button>
+</div>
+
+</body>
+</html>

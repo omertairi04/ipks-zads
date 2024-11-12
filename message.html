@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Game</title>
+
+    <style>
+      #canvas {
+        width: 800px;
+        height: 600px;
+        background-color: #f0f0f0;
+        margin: 0 auto;
+        position: relative;
+      }
+
+      .shape {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: large;
+      }
+
+      #line {
+        position: absolute;
+        height: 100%;
+        border: 1px solid black;
+        display: none;
+      }
+
+      h2 {
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="canvas">
+      <div id="line"></div>
+    </div>
+    <h2>Score: <span id="score">0</span></h2>
+  </body>
+
+  <script>
+    const data =
+      '[{"id":1,"width":100,"height":100,"score":10},{"id":2,"width":100,"height":100,"score":20},{"id":3,"width":100,"height":100,"score":30},{"id":4,"width":100,"height":100,"score":40},{"id":5,"width":100,"height":100,"score":50},{"id":6,"width":100,"height":100,"score":60}]';
+    let shapes = JSON.parse(data);
+
+    window.onload = function () {
+      const canvas = document.getElementById("canvas");
+
+      for (const shape of shapes) {
+        const el = document.createElement("div");
+        el.classList.add("shape");
+
+        el.style.backgroundColor = getRandomColor();
+        el.style.width = shape.width + "px";
+        el.style.height = shape.height + "px";
+
+        el.style.top = getRandomIntInclusive(0, 600 - shape.height) + "px";
+        el.style.left = getRandomIntInclusive(0, 800 - shape.width) + "px";
+
+        el.innerHTML = shape.score;
+
+        canvas.appendChild(el);
+
+        shape.element = el;
+        shape.speed = 1;
+        if (getRandomIntInclusive(0, 1) === 0) {
+          shape.direction = "vertical";
+        } else {
+          shape.direction = "horizontal";
+        }
+      }
+
+      const duration = getRandomIntInclusive(1000, 5000);
+      let counter = 0;
+
+      function move() {
+        startAnimation();
+
+        setTimeout(() => {
+          stopAnimation();
+
+          if (counter++ < 2) {
+            setTimeout(move, 2000);
+          }
+        }, duration);
+      }
+
+      move();
+    };
+
+    function startAnimation() {
+      for (const shape of shapes) {
+        const interval = setInterval(() => {
+          if (shape.direction === "horizontal") {
+            const current = Number(shape.element.style.left.split("px")[0]);
+
+            if (shape.speed === 1 && current + shape.width > 800) {
+              shape.speed = -1;
+            } else if (current < 0) {
+              shape.speed = 1;
+            }
+
+            shape.element.style.left = current + 5 * shape.speed + "px";
+          } else {
+            const current = Number(shape.element.style.top.split("px")[0]);
+
+            if (shape.speed === 1 && current + shape.height > 600) {
+              shape.speed = -1;
+            } else if (current < 0) {
+              shape.speed = 1;
+            }
+
+            shape.element.style.top = current + 5 * shape.speed + "px";
+          }
+        }, 10);
+
+        shape.interval = interval;
+      }
+    }
+
+    function stopAnimation() {
+      for (const shape of shapes) {
+        if (shape.interval) clearInterval(shape.interval);
+      }
+
+      const line = document.getElementById("line");
+      const cutOff = getRandomIntInclusive(0, 800);
+      line.style.left = cutOff + "px";
+      line.style.display = "block";
+
+      setTimeout(() => {
+        line.style.display = "none";
+
+        shapes = shapes.filter((shape) => {
+          const current = Number(shape.element.style.left.split("px")[0]);
+          if (current <= cutOff) {
+            shape.element.remove();
+            const score = document.getElementById("score");
+            score.innerHTML = Number(score.innerHTML) + shape.score;
+            return false;
+          }
+          return true;
+        });
+      }, 1500);
+    }
+
+    function getRandomIntInclusive(min, max) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min + 1)) + min; //The maximum is inclusive and the minimum is inclusive
+    }
+
+    function getRandomColor() {
+      const r = getRandomIntInclusive(0, 255);
+      const g = getRandomIntInclusive(0, 255);
+      const b = getRandomIntInclusive(0, 255);
+      return `rgb(${r}, ${g}, ${b})`;
+    }
+  </script>
+</html>

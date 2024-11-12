@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+        p
+        {
+            display: inline;
+        }
+        #here
+        {
+            letter-spacing: 5px;
+        }
+    </style>
+    <script>
+        let dictionary = '["јас","ти","тој","таа","тоа","ние","вие","тие"]'
+        let json = JSON.parse(dictionary)
+        let kirilica = ['А','Б','В','Г','Д','Ѓ','Е','Ж','З','Ѕ','И','Ј','К','Л','Љ','М','Н','Њ','О',
+            'П','Р','С','Т','Ќ','У','Ф','Х','Ц','Ч','Џ','Ш']
+        let counter = 0
+        let bukvi = ""
+        window.onload = function ()
+        {
+            bukvi = randomLetters(kirilica)
+            paragraf = document.getElementById("here")
+            paragraf.innerHTML = bukvi
+            interval = setInterval(clock,1000)
+        }
+
+        function clock()
+        {
+            let time = document.getElementById("vreme")
+            time.innerHTML -= 1
+            if(time.innerHTML === "0")
+            {
+                let btn = document.getElementById("kopce")
+                let input = document.getElementById("choice")
+                btn.disabled = true
+                input.disabled = true
+                clearInterval(interval)
+            }
+        }
+
+        function check() {
+            let hit = document.getElementById("pogodok")
+            let zbor = document.getElementById("choice")
+            let words = zbor.value.toUpperCase()
+            let word = zbor.value.toLowerCase()
+            for(let j=0;j<words.length;j++)
+            {
+                if(!bukvi.includes(words.charAt(j)))
+                {
+                    alert("Смеете само од горе понудените букви!")
+                    return;
+                }
+            }
+            for (let i = 0; i < json.length; i++) {
+                if (word === json[i]) {
+                    counter++
+                    hit.innerHTML = counter
+                   zbor.value = ""
+                }
+            }
+        }
+
+        function randomLetters(array)
+        {
+            let string = ""
+            let i = 0
+            for(i=0;i<10;i++)
+            {
+                string += array[Math.floor(Math.random() * 21)]
+            }
+            return string;
+        }
+    </script>
+</head>
+<body>
+<p id="here" style="display: inline"></p>
+<div>
+    <input type="text" id="choice">
+    <button id="kopce" onclick="check()">Провери</button>
+</div>
+<p>Преостанато време: <span id="vreme">60</span> секунди. Погодоци <span id="pogodok">0</span>.</p>
+
+</body>
+</html>

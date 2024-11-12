@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+    </style>
+    <script>
+        function draw()
+        {
+            let del = document.getElementById("del").value
+            let colors = document.getElementById("color").value
+            let arrayColors = colors.split(del)
+            let here = document.getElementById("here")
+            for(let i=0;i<arrayColors.length;i++)
+            {
+                let element = document.createElement("div")
+                element.style.backgroundColor = arrayColors[i]
+                element.style.width = "50px"
+                element.style.height = "50px"
+                element.style.float = "left"
+                element.setAttribute("onclick","removeEl(this)")
+
+                here.append(element)
+            }
+        }
+        function removeEl(el)
+        {
+            let children = el.parentNode.children
+            el.remove()
+            console.log(children)
+            let txt = ""
+            for(let i=0;i<children.length;i++)
+            {
+                txt += children[i].style.backgroundColor + document.getElementById("del").value
+            }
+            document.getElementById("color").value = txt
+        }
+
+
+    </script>
+</head>
+<body>
+
+<div>
+    <p>Colors</p>
+    <input type="text" id="color">
+    <p>Delimeter</p>
+    <input type="text" id="del">
+</div>
+<br>
+<button onclick="draw()">Draw</button>
+<div id="here">
+
+</div>
+
+</body>
+</html>

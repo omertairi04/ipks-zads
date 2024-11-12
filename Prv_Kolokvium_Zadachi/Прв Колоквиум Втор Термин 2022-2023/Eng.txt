@@ -1,0 +1,11 @@
+Create a website where the user inputs `username`, `id`, `width`, `height`, `color` (options: red, yellow, green, blue), and an `Add` button.
+
+If not all fields are filled in, data entry should be prevented, an error should be thrown, and the fields should not be reset. Additionally, validate that `id` consists of only lowercase letters (it must not contain numbers, but special characters are allowed, though not required).
+
+When entering a new user, check if the `id` already exists. If it does, only update the other data for the existing user.
+
+The total price should be calculated as `pixel * 0.5`, where the total number of pixels is determined by `width * height`. If the color is red, add 1000 to the existing price; otherwise, no additional amount is added.
+
+The width and height must be non-zero values and cannot exceed 500.
+
+When adding a user, also add a `Sell` button. Clicking this button should delete the element and update the total sum of sold cards.

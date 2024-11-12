@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <input type="button" value="<" onclick="moveLeft()">
+    <input type="button" value=">" onclick="moveRight()">
+
+<script>
+    var body = document.getElementsByTagName('body')[0];
+    index = 0;
+    body.onload = function (){
+        data = '[{"background-color":"red", "width":"100px", "height":"100px"}, {"background-color":"green", "width":"50px", "height":"100px"}, {"background-color":"blue", "width":"100px", "height":"50px"}]';
+        data = JSON.parse(data);
+
+        var element = document.createElement('div');
+        element.style.backgroundColor = data[0]['background-color'];
+        element.style.width = data[0]['width'];
+        element.style.height = data[0]['height'];
+        element.style.position = 'absolute';
+        element['left_position'] = 0;
+        document.body.appendChild(element);
+    }
+
+    function moveLeft()
+    {
+        inter = setInterval(function move()
+        {
+            var object = document.getElementsByTagName('div')[0];
+            var position = -100;
+
+            object['left_position'] -= 10;
+            object.style.left = object['left_position']+"px";
+
+            if (object['left_position'] < position) {
+                clearInterval(inter);
+                index++;
+                if(index >= data.length)
+                    index = 0;
+
+                object['left_position'] = 1000;
+                object.style.backgroundColor = data[index]['background-color'];
+                object.style.width = data[index]['width'];
+                object.style.height = data[index]['height'];
+
+                inter2 = setInterval(function () {
+                    object['left_position'] -= 10;
+                    object.style.left = object['left_position'] + "px";
+
+                    if (object['left_position'] < 0)
+                        clearInterval(inter2);
+                }, 20);
+            }
+        }
+        , 100);
+    }
+    function moveRight()
+    {
+        inter = setInterval(function move()
+            {
+                var object = document.getElementsByTagName('div')[0];
+                var position = 1000;
+
+                object['left_position'] += 10;
+                object.style.left = object['left_position']+"px";
+
+                if (object['left_position'] > position) {
+                    clearInterval(inter);
+                    index--;
+                    if(index < 0)
+                        index = data.length-1;
+
+                    object['left_position'] = -100;
+                    object.style.backgroundColor = data[index]['background-color'];
+                    object.style.width = data[index]['width'];
+                    object.style.height = data[index]['height'];
+
+                    inter2 = setInterval(function () {
+                        object['left_position'] += 10;
+                        object.style.left = object['left_position'] + "px";
+
+                        if (object['left_position'] > 0)
+                            clearInterval(inter2);
+                    }, 100);
+                }
+            }
+            , 20);
+    }
+</script>
+</body>
+</html>
